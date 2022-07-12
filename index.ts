@@ -10,7 +10,7 @@ const numerical = /[0-9]/;
 const symbols = /[^a-zA-Z0-9]/;
 const numericalSymbols = /[^a-zA-Z]/;
 
-export function checkEmail(email: string): boolean{
+function checkEmail(email: string): boolean{
     // If no email entered return false
     if (!email) return false;
     const emailSplit = email.split('@');
@@ -55,12 +55,12 @@ const numberSequence = '1234567890';
 const alphabetSequence = 'abcdefghijklmnopqrstuvwxyz';
 const symbolSequence = '~!@#$%^&*()_+{}|<>?,./';
 
-function numChars(input: string): number {
+function calcChars(input: string): number {
     return input.length * 4
 }
 
 // Count of UpperCase characters with non-uppercase characters required for score
-function numUpCaseLetters(input: string): number {
+function calcUpCaseLetters(input: string): number {
     const count = characterList(input).reduce((count, char) => {
         return isUpperCase(char) ? count + 1: count;
     }, 0);
@@ -69,7 +69,7 @@ function numUpCaseLetters(input: string): number {
 }
 
 // Count of loercase characters with non-lowercase characters required for a score
-function numLowerCaseLetters(input: string): number {
+function calcLowerCaseLetters(input: string): number {
     const count = characterList(input).reduce((count, char) => {
         return isLowerCase(char) ? count + 1: count;
     }, 0);
@@ -144,17 +144,16 @@ function calcNumbersOnly(input: string): number {
     return characterList(input).every(char => isNumerical(char)) ? -input.length : 0;
 }
 
-export type calcFunc = (input: string) => number;
-
-const allPasswordCalc: calcFunc[] = [
-    numChars,
-    numUpCaseLetters,
-    numLowerCaseLetters,
+module.exports = {
+    checkEmail,
+    calcChars,
+    calcUpCaseLetters,
+    calcLowerCaseLetters,
     calcNums,
     calcSymbols,
     calcMidNumSymb,
     calcPassWordRequirements,
     calcLettersOnly,
     calcNumbersOnly,
-];
+};
 
