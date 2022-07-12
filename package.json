@@ -1,6 +1,6 @@
 {
   "name": "@blueberry_muffins/email_library",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Library that returns numerical values for different patterns used to enhance passwords",
   "main": "index.js",
   "scripts": {
