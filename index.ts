@@ -10,7 +10,7 @@ const numerical = /[0-9]/;
 const symbols = /[^a-zA-Z0-9]/;
 const numericalSymbols = /[^a-zA-Z]/;
 
-function checkEmail(email: string): boolean{
+export function checkEmail(email: string): boolean{
     // If no email entered return false
     if (!email) return false;
     const emailSplit = email.split('@');
@@ -59,6 +59,7 @@ function numChars(input: string): number {
     return input.length * 4
 }
 
+// Count of UpperCase characters with non-uppercase characters required for score
 function numUpCaseLetters(input: string): number {
     const count = characterList(input).reduce((count, char) => {
         return isUpperCase(char) ? count + 1: count;
@@ -67,6 +68,7 @@ function numUpCaseLetters(input: string): number {
     return (count && count < length) ? (length - count) * 2 : 0;
 }
 
+// Count of loercase characters with non-lowercase characters required for a score
 function numLowerCaseLetters(input: string): number {
     const count = characterList(input).reduce((count, char) => {
         return isLowerCase(char) ? count + 1: count;
@@ -75,6 +77,7 @@ function numLowerCaseLetters(input: string): number {
     return (count && count < length) ? count * 4 : 0;
 }
 
+// Checks count of numbers with non-numeric characters required
 function calcNums(input: string): number{
     const count = characterList(input).reduce((count, char) => {
         return isSymbol(char) ? count + 1 : count;
@@ -82,4 +85,76 @@ function calcNums(input: string): number{
     return count * 6;
 }
 
+// checks counts of symbols
+function calcSymbols(input: string): number {
+    const count = characterList(input).reduce((count, char) => {
+        return isSymbol(char) ? count + 1 : count;
+    }, 0);
+    return count * 6;
+}
+
+// checks counts of numbers and symbols in the middle of the string
+function calcMidNumSymb(input: string): number {
+    const list = characterList(input).slice(1, input.length - 1);
+    const count = list.reduce((count, char) => {
+        return isNumericalSymbol(char) ? count + 1 : count;
+    }, 0);
+    return count * 2;
+}
+
+// Checks 8 char minimunm length and 3/4 below parameters met
+function calcPassWordRequirements(input: string): number{
+    let hasLowerCase = false;
+    let hasUpperCase = false;
+    let hasNumber = false;
+    let hasSymbol = false;
+    characterList(input).forEach(char => {
+        if (isLowerCase(char)) {
+            hasLowerCase = true;
+        } else if (isUpperCase(char)) {
+            hasUpperCase = true;
+        } else if (isNumerical(char)) {
+            hasNumber = true;
+        } else {
+            hasSymbol = true;
+        }
+    });
+
+    const reqA = (input.length >= 8) ? 1 : 0;
+    const reqB = hasLowerCase ? 1 : 0;
+    const reqC = hasUpperCase ? 1 : 0;
+    const reqD = hasNumber ? 1 : 0;
+    const reqE = hasSymbol ? 1 : 0;
+
+    const reqTotal = reqB + reqC + reqD + reqE;
+    if (reqA && (reqTotal >= 3)) {
+        return (reqA + reqTotal) * 2;
+    } else {
+        return 0;
+    }
+}
+
+// checks if every character is a letter
+function calcLettersOnly(input: string): number{
+    return characterList(input).every(char => isAlphaChar(char)) ? -input.length : 0;
+}
+
+// checks if every character is a number
+function calcNumbersOnly(input: string): number {
+    return characterList(input).every(char => isNumerical(char)) ? -input.length : 0;
+}
+
+export type calcFunc = (input: string) => number;
+
+const allPasswordCalc: calcFunc[] = [
+    numChars,
+    numUpCaseLetters,
+    numLowerCaseLetters,
+    calcNums,
+    calcSymbols,
+    calcMidNumSymb,
+    calcPassWordRequirements,
+    calcLettersOnly,
+    calcNumbersOnly,
+];
 
