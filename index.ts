@@ -3,6 +3,13 @@
 
 const accepted_chars = /^[-!#$%&'*+\/0-9=?A-Z^_a-z`{|}~](\.?[-!#$%&'*+\/0-9=?A-Z^_a-z`{|}~])*@[a-zA-Z0-9](-*\.?[a-zA-Z0-9])*\.[a-zA-Z](-?[a-zA-Z0-9])+$/;
 
+const alphachars = /[a-zA-Z]/;
+const upperCase = /[A-Z]/;
+const lowerCase = /[a-z]/;
+const numerical = /[0-9]/;
+const symbols = /[^a-zA-Z0-9]/;
+const numericalSymbols = /[^a-zA-Z]/;
+
 function checkEmail(email: string): boolean{
     // If no email entered return false
     if (!email) return false;
@@ -33,5 +40,14 @@ function checkEmail(email: string): boolean{
     }
 
     return true;
-
 }
+
+// Using test method for 'global search' matches across different characters instead of iterations (slower) and returning a boolean
+const characterList = (char: string): string[] => char.split('');
+const isAlphaChar = (char: string): boolean => alphachars.test(char);
+const isUpperCase = (char: string): boolean => upperCase.test(char);
+const isLowerCase = (char: string): boolean => lowerCase.test(char);
+const isNumerical = (char: string): boolean => numerical.test(char);
+const isSymbol = (char: string): boolean => symbols.test(char);
+const isNumericalSymbol = (char: string): boolean => numericalSymbols.test(char);
+
