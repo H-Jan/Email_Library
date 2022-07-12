@@ -51,3 +51,35 @@ const isNumerical = (char: string): boolean => numerical.test(char);
 const isSymbol = (char: string): boolean => symbols.test(char);
 const isNumericalSymbol = (char: string): boolean => numericalSymbols.test(char);
 
+const numberSequence = '1234567890';
+const alphabetSequence = 'abcdefghijklmnopqrstuvwxyz';
+const symbolSequence = '~!@#$%^&*()_+{}|<>?,./';
+
+function numChars(input: string): number {
+    return input.length * 4
+}
+
+function numUpCaseLetters(input: string): number {
+    const count = characterList(input).reduce((count, char) => {
+        return isUpperCase(char) ? count + 1: count;
+    }, 0);
+    const length = input.length;
+    return (count && count < length) ? (length - count) * 2 : 0;
+}
+
+function numLowerCaseLetters(input: string): number {
+    const count = characterList(input).reduce((count, char) => {
+        return isLowerCase(char) ? count + 1: count;
+    }, 0);
+    const length = input.length;
+    return (count && count < length) ? count * 4 : 0;
+}
+
+function calcNums(input: string): number{
+    const count = characterList(input).reduce((count, char) => {
+        return isSymbol(char) ? count + 1 : count;
+    }, 0);
+    return count * 6;
+}
+
+
